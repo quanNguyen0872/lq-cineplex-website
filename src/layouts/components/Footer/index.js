@@ -50,7 +50,7 @@ function Footer() {
                     <div className={cx('col-4 ')}>
                         <p className="fw-bold text-white">Kết nối</p>
 
-                        <span className="h5 pt-5" href="/" style={{ fontSize: '50px', color: '#0080ff' }}>
+                        <span className="h5" href="/" style={{ fontSize: '50px', color: '#0080ff' }}>
                             <BsFacebook />
                         </span>
                         <span className=" " href="/" style={{ fontSize: '50px', color: '#ffffff' }}>

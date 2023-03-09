@@ -2,11 +2,13 @@
     display: inline-block;
     display: flex;
     height: 90px;
+    z-index: 10;
 }
 
 .menu,
 .dropdown {
     list-style-type: none;
+    z-index: 10;
 }
 
 .menu > li {
