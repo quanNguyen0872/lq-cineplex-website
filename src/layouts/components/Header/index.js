@@ -5,6 +5,7 @@ import { menuItems } from './Menu/menuItems';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useRef, useState } from 'react';
+import Button from '~/layouts/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -59,9 +60,27 @@ function Header() {
                             <FontAwesomeIcon icon={faCircleXmark} />
                         </button>
                     )}
-                    <button className={cx('search-btn')}>
+                    <button className={cx('search-btn.')}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
+                </div>
+                <div className={cx('sigin')}>
+                    <div className={cx('flex')}>
+                        <Button
+                            className={cx(
+                                'text-black  hover:bg-red-600  bg-lq-white w-36 h-16  text-2xl font-bold justify-center',
+                            )}
+                        >
+                            Đăng ký
+                        </Button>
+                        <Button
+                            className={cx(
+                                'text-black  hover:bg-red-600  bg-lq-white w-36 h-16 text-2xl font-bold justify-center ',
+                            )}
+                        >
+                            Đăng nhập
+                        </Button>
+                    </div>
                 </div>
                 {/* Button Sign in - Sign up */}
             </div>

@@ -1,6 +1,8 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 * {
     margin: 0;
     padding: 0;
@@ -18,7 +20,6 @@ body {
     text-rendering: optimizeSpeed;
 }
 
-button,
 input,
 [tabindex] {
     outline: none;
@@ -28,4 +29,13 @@ input,
 a[href] {
     color: #fff;
     text-decoration: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 0;
 }
