@@ -63,7 +63,7 @@ function Home() {
             return <Card key={index} dataMovie={item} />;
         });
     };
-    const renderListSukie = () => {
+    const renderListSukien = () => {
         return cardSukien.map((item, index) => {
             return <Card key={index} dataMovie={item} />;
         });
@@ -96,7 +96,7 @@ function Home() {
             </div>
             <span className={cx('textsukien')}>Sự kiện</span>
             <div className={cx('pl-[200px] pr-[200px] ')}>
-                <div className={cx('flex flex-wrap justify-between')}>{renderListSukie()}</div>
+                <div className={cx('flex flex-wrap justify-between')}>{renderListSukien()}</div>
             </div>
         </div>
     );
