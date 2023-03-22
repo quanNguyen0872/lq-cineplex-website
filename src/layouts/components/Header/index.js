@@ -60,7 +60,7 @@ function Header() {
                             <FontAwesomeIcon icon={faCircleXmark} />
                         </button>
                     )}
-                    <button className={cx('search-btn.')}>
+                    <button className={cx('search-btn')}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
                 </div>

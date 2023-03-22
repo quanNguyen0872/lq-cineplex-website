@@ -8,6 +8,7 @@ import Movie from '~/pages/Movie';
 import Theater from '~/pages/Theater';
 import CinemaCorner from '~/pages/CinemaCorner';
 import EventCine from '~/pages/EventCine';
+import TicketBooking from '~/pages/TicketBooking';
 
 // Public routes
 const publicRoutes = [
@@ -16,6 +17,7 @@ const publicRoutes = [
     { path: config.routes.rap, component: Theater },
     { path: config.routes.gocdienanh, component: CinemaCorner },
     { path: config.routes.sukien, component: EventCine },
+    { path: config.routes.datve, component: TicketBooking },
 ];
 
 const privateRoutes = [];
