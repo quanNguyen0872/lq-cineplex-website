@@ -1,70 +1,78 @@
 import classNames from 'classnames/bind';
-import styles from './Footer.module.scss';
+
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { BsFacebook, BsGithub, BsYoutube } from 'react-icons/bs';
-
+import logo from '~/layouts/asset/logo.png';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-const cx = classNames.bind(styles);
+const cx = classNames;
 
 function Footer() {
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('container')}>
-                <div className={cx('logo')}>
-                    <a href="/">
-                        L&Q <br />
-                        Cineplex
+            <div className={cx('bg-[#0d0e13] flex')}>
+                <div className={cx(' ')}>
+                    <a href="/" className={cx('')}>
+                        <img src={logo} className={cx('w-full h-[200px] object-cover rounded-md')} />
                     </a>
                 </div>
-                <div className={cx('row')}>
-                    <div className={cx('col-4 ')}>
-                        <p className="fw-bold text-white ">Giới thiệu</p>
+                <div className={cx('flex')}>
+                    <div className={cx(' ')}>
+                        <p className={cx('ml-20 pt-14 text-4xl text-white font-bold')}>Giới thiệu</p>
 
-                        <span className=" " onClick={'/'}>
+                        <a className={cx(' flex ml-32 pt-8')} href="/">
                             <AiOutlineDoubleRight />
                             Về công ty
-                        </span>
-                        <br />
-                        <span className=" " onClick={'/'}>
+                        </a>
+
+                        <a className=" flex ml-32 " href="/">
                             <AiOutlineDoubleRight />
                             Về quy chế
-                        </span>
-                        <br />
-                        <span className="text-white " onClick={'/'}>
+                        </a>
+
+                        <a className=" flex ml-32  " href="/">
                             <AiOutlineDoubleRight />
                             Về chính sách bảo mật{' '}
-                        </span>
+                        </a>
                     </div>
-                    <div className={cx('col-4 ')}>
-                        <p className="fw-bold  text-white">Hỗ trợ</p>
-                        <span className="text-white " onClick={'/'}>
+                    <div className={cx('ml-24')}>
+                        <p className={cx('ml-20 pt-14 text-4xl text-white font-bold')}>Hỗ trợ</p>
+
+                        <a className={cx(' flex ml-32 pt-8')} href="/">
                             <AiOutlineDoubleRight />
                             Đăng ký tài khoản
-                        </span>
-                        <br />
-                        <span className="text-white " onClick={'/'}>
+                        </a>
+
+                        <a className=" flex ml-32 " href="/">
                             <AiOutlineDoubleRight />
                             Về rạp / Giá vé
-                        </span>
+                        </a>
                     </div>
-                    <div className={cx('col-4 ')}>
-                        <p className="fw-bold text-white">Kết nối</p>
 
-                        <span className="h5" href="/" style={{ fontSize: '50px', color: '#0080ff' }}>
-                            <BsFacebook />
-                        </span>
-                        <span className=" " href="/" style={{ fontSize: '50px', color: '#ffffff' }}>
-                            <BsGithub />
-                        </span>
-                        <span className="text-danger" href="/" style={{ fontSize: '50px' }}>
-                            <BsYoutube />
-                        </span>
+                    <div className={cx('ml-24 ')}>
+                        <p className={cx('ml-20 pt-14 text-4xl text-white font-bold')}>Giới thiệu</p>
+                        <div className={cx('flex')}>
+                            <a
+                                className={cx(' flex ml-32 pt-8')}
+                                href="/"
+                                style={{ fontSize: '50px', color: '#0080ff' }}
+                            >
+                                <BsFacebook />
+                            </a>
+
+                            <a className=" ml-8 pt-8  color-[#0080ff]" href="/" style={{ fontSize: '50px' }}>
+                                <BsGithub />
+                            </a>
+
+                            <a className={cx('ml-8 pt-8')} href="/" style={{ fontSize: '50px', color: ' #ff0000' }}>
+                                <BsYoutube />
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className={cx('line')}></div>
-            <div className={cx('diachi')}>
-                <a className="text-danger" href="/" style={{ fontSize: '20px' }}>
+            <div className={cx('w-full h-1 text-lq-white')}></div>
+            <div className={cx('flex bg-[#0d0e13] h-16 pt-3 text-white ')}>
+                <a className={cx('text-red-600')} href="/" style={{ fontSize: '24px', color: ' #ff0000' }}>
                     <FaMapMarkerAlt />
                 </a>
                 12 Nguyễn Văn Bảo - phường 4 - Gò Vấp - TP Hồ Chí Minh

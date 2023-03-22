@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useRef, useState } from 'react';
 import Button from '~/layouts/components/Button';
-
+import logo from '~/layouts/asset/logo.png';
 const cx = classNames.bind(styles);
 
 function Header() {
@@ -32,10 +32,9 @@ function Header() {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 {/* Logo */}
-                <div className={cx('logo')}>
-                    <a href="/">
-                        L&Q <br />
-                        Cineplex
+                <div className={cx(' ')}>
+                    <a href="/" className={cx('')}>
+                        <img src={logo} className={cx('w-full h-[120px] object-cover rounded-md ml-5')} />
                     </a>
                 </div>
                 {/* Nav */}
@@ -65,7 +64,7 @@ function Header() {
                     </button>
                 </div>
                 <div className={cx('sigin')}>
-                    <div className={cx('flex')}>
+                    <div className={cx('flex mr-8')}>
                         <Button
                             className={cx(
                                 'text-black  hover:bg-red-600  bg-lq-white w-36 h-16  text-2xl font-bold justify-center',
