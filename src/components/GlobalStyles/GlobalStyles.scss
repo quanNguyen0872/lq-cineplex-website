@@ -18,6 +18,8 @@ body {
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizeSpeed;
+    background-color: #221f1f;
+    color: white;
 }
 
 input,
@@ -38,4 +40,8 @@ h5,
 h6 {
     margin-top: 0;
     margin-bottom: 0;
+}
+
+select {
+    color: black;
 }
