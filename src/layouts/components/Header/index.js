@@ -34,7 +34,11 @@ function Header() {
                 {/* Logo */}
                 <div className={cx(' ')}>
                     <a href="/" className={cx('')}>
-                        <img src={logo} className={cx('w-full h-[120px] object-cover rounded-md ml-5')} />
+                        <img
+                            src={logo}
+                            className={cx('w-full h-[120px] object-cover rounded-md ml-5')}
+                            alt="logo-cineplex"
+                        />
                     </a>
                 </div>
                 {/* Nav */}

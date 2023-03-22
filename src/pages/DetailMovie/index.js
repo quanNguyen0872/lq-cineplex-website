@@ -38,7 +38,7 @@ function DetailMovie() {
     const listRap = ['L&Q Cineplex Quang Trung', 'Rạp Hồ Tây', 'Rạp Trường Chinh', 'Rạp Lý Tự Trọng'];
     return (
         <div className={cx('')}>
-            <a className={cx('text-lq-white ml-32 pt-5')} href="">
+            <a className={cx('text-lq-white ml-32 pt-5')} href="/">
                 AVATAR: THE WAY OF WATER
             </a>
             <div className={cx('flex p-24 ml-48')}>

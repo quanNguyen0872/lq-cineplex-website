@@ -12,7 +12,11 @@ function Footer() {
             <div className={cx('bg-[#0d0e13] flex')}>
                 <div className={cx(' ')}>
                     <a href="/" className={cx('')}>
-                        <img src={logo} className={cx('w-full h-[200px] object-cover rounded-md')} />
+                        <img
+                            src={logo}
+                            className={cx('w-full h-[200px] object-cover rounded-md')}
+                            alt="logo-cineplex"
+                        />
                     </a>
                 </div>
                 <div className={cx('flex')}>
