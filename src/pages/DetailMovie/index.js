@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Button from '~/layouts/components/Button';
 import ListRap from '~/layouts/components/ListRap';
 import Picker from '~/layouts/components/Picker';
+import config from '~/config';
 const cx = classNames;
 const cardInfo = [
     {
@@ -59,6 +60,7 @@ function DetailMovie() {
                             className={cx(
                                 'text-black  hover:bg-lq-white  bg-red-600  w-72 h-16 justify-center text-3xl font-bold',
                             )}
+                            to={config.routes.datve}
                         >
                             Đặt vé
                         </Button>
