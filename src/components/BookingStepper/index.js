@@ -8,6 +8,8 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import ChooseSeat from '../ChooseSeat';
+import ChooseFood from '../ChooseFood';
+import { useStore, actions } from '~/store';
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -88,47 +90,11 @@ ColorlibStepIcon.propTypes = {
 const steps = ['Chọn ghế', 'Chọn bắp nước', 'Thanh Toán', 'Vé của bạn'];
 
 function BookingStepper({ movie }) {
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [skipped, setSkipped] = React.useState(new Set());
-
-    const isStepOptional = (step) => {
-        return step === 1;
-    };
-
-    const isStepSkipped = (step) => {
-        return skipped.has(step);
-    };
-
-    const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            throw new Error("You can't skip a step that isn't optional.");
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
-    };
+    const [state, dispath] = useStore();
+    const { activeStep } = state;
 
     const handleReset = () => {
-        setActiveStep(0);
+        dispath(actions.setActiveStep(0));
     };
 
     function getStepContent(step) {
@@ -140,11 +106,15 @@ function BookingStepper({ movie }) {
                     </>
                 );
             case 1:
-                return <>Step 2</>;
+                return (
+                    <>
+                        <ChooseFood />
+                    </>
+                );
             case 2:
-                return <>Step 3</>;
+                return <>Thanh Toán</>;
             case 3:
-                return <>Step 4</>;
+                return <>Vé của bạn</>;
             default:
                 return 'Unknown step';
         }
@@ -155,9 +125,7 @@ function BookingStepper({ movie }) {
             <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                 {steps.map((label, index) => {
                     const stepProps = {};
-                    if (isStepSkipped(index)) {
-                        stepProps.completed = false;
-                    }
+
                     return (
                         <Step key={label} {...stepProps}>
                             <StepLabel StepIconComponent={ColorlibStepIcon}>
@@ -169,7 +137,8 @@ function BookingStepper({ movie }) {
                     );
                 })}
             </Stepper>
-            {activeStep === steps.length ? (
+            {/* Button */}
+            {activeStep === steps.length - 1 ? (
                 <React.Fragment>
                     <Box sx={{ mt: 5, mb: 1 }}></Box>
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
@@ -184,28 +153,6 @@ function BookingStepper({ movie }) {
                     <Typography sx={{ mt: 2, mb: 1 }} component={'span'}>
                         {getStepContent(activeStep)}
                     </Typography>
-
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                        <Button
-                            color="inherit"
-                            disabled={activeStep === 0 || activeStep === 3}
-                            onClick={handleBack}
-                            sx={{ mr: 1, fontSize: 18, color: '#F4E5D7', border: 'solid' }}
-                        >
-                            Back
-                        </Button>
-
-                        <Box sx={{ flex: '1 1 auto' }} />
-
-                        {isStepOptional(activeStep) && (
-                            <Button color="inherit" onClick={handleSkip} sx={{ mr: 1, fontSize: 18, color: '#F4E5D7' }}>
-                                Skip
-                            </Button>
-                        )}
-                        <Button onClick={handleNext} sx={{ fontSize: 18, color: '#C92522', border: 'solid' }}>
-                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                        </Button>
-                    </Box>
                 </React.Fragment>
             )}
         </Box>

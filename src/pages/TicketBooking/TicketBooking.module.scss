@@ -6,17 +6,16 @@
     margin-top: 40px;
 }
 
-.ticketBooking-right {
+.ticket-info {
     display: flex;
     flex-direction: column;
-}
-
-.ticket-info {
+    flex: 1;
     background-color: #fafafa;
     width: 100%;
-    height: 80vh;
+    min-height: 80vh;
     border-radius: 8px;
     color: black;
+    margin-bottom: 80px;
 }
 
 .ticket-info-top {
@@ -82,4 +81,52 @@
     color: #fff;
     padding: 0 20px;
     border-radius: 4px;
+}
+
+.ticket-info-bottom {
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: auto;
+}
+
+.line-bottom {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.line-bottom .ticket-line {
+    width: 300px;
+}
+
+.total-amount {
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.group-button {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.group-button .button {
+    border: solid 2px #c92522;
+    border-radius: 8px;
+    padding: 5px 0;
+    font-size: 20px;
+    font-weight: 500;
+    width: 165px;
+}
+
+.group-button .button-next {
+    background-color: #c92522;
+}
+
+.group-button .button-pay {
+    width: 100%;
+    background-color: #c92522;
+    color: #fff;
 }

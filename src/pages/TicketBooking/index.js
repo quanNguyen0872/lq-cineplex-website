@@ -10,7 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-regular-svg-icons';
 import Button from '~/layouts/components/Button';
 import SeatCard from '~/components/SeatCard';
-import { useStore } from '~/store';
+import FoodCard from '~/components/FoodCard';
+import { useStore, actions } from '~/store';
 
 const cx = classNames.bind(styles);
 
@@ -21,8 +22,8 @@ const movie = {
 };
 
 function TicketBooking() {
-    const [state] = useStore();
-    const { selectedSeats } = state;
+    const [state, dispath] = useStore();
+    const { selectedSeats, activeStep, selectedFoods } = state;
 
     const [activeVourcher, setActiceVourcher] = useState(0);
     const [valueTextField, setValueTextField] = useState('');
@@ -34,6 +35,67 @@ function TicketBooking() {
     const handleClearTextField = () => {
         setValueTextField('');
     };
+
+    const handleNext = () => {
+        dispath(actions.setActiveStep(activeStep + 1));
+    };
+
+    const handleBack = () => {
+        dispath(actions.setActiveStep(activeStep - 1));
+    };
+
+    const handleSkip = () => {
+        dispath(actions.setActiveStep(activeStep + 2));
+    };
+
+    // const handleReset = () => {
+    //     dispath(actions.setActiveStep(0));
+    // };
+
+    function showButton() {
+        if (activeStep === 0) {
+            return (
+                <>
+                    <button className={cx('button')} onClick={handleSkip}>
+                        Thanh Toán
+                    </button>
+                    <button className={cx('button', 'button-next')} onClick={handleNext}>
+                        Tiếp Tục
+                    </button>
+                </>
+            );
+        } else if (activeStep === 1) {
+            return (
+                <>
+                    <button className={cx('button')} onClick={handleBack}>
+                        Trở về
+                    </button>
+                    <button className={cx('button', 'button-next')} onClick={handleNext}>
+                        Tiếp tục
+                    </button>
+                </>
+            );
+        } else {
+            return (
+                <>
+                    <button className={cx('button')} onClick={handleBack}>
+                        Trở về
+                    </button>
+                    <button className={cx('button', 'button-next')} onClick={handleNext}>
+                        Thanh Toán
+                    </button>
+                </>
+            );
+        }
+    }
+
+    function getTotalCostFood(array) {
+        let totalCost = 0;
+        array.forEach(function (value) {
+            totalCost += value.food.cost * value.quantity;
+        });
+        return totalCost;
+    }
 
     return (
         <div className={cx('container')}>
@@ -78,76 +140,103 @@ function TicketBooking() {
             </div>
             {/* Content */}
             <div className={cx('ticketBooking-content row')}>
-                {/* Ticket Booking Left */}
-                <div className={cx('ticketBooking-left col-8')}>
+                {activeStep !== 3 ? (
+                    <>
+                        {/* Ticket Booking Left */}
+                        <div className={cx('ticketBooking-left col-8')}>
+                            <div>
+                                <BookingStepper movie={movie} />
+                            </div>
+                        </div>
+                        {/* Ticket Booking Right */}
+                        <div className={cx('ticketBooking-right col-4')}>
+                            <div className={cx('ticket-info')}>
+                                <div className={cx('ticket-info-top')}>
+                                    <div className={cx('movie-title')}>{movie.name}</div>
+                                    <div className={cx('cinema-name')}>L&Q Cineplex Quang Trung</div>
+                                    <div className={cx('ticket-time')}>Suất chiếu: 20:00 | Thứ hai, 14/03/2023</div>
+                                    <div className={cx('ticket-line')}></div>
+                                </div>
+
+                                <div className={cx('ticket-info-between')}>
+                                    <div className={cx('ticket-text')}>Vé</div>
+                                    <div className={cx('ticket-total')}>
+                                        {selectedSeats.length} vé, {selectedSeats.length * 85000}đ
+                                    </div>
+                                </div>
+                                {selectedSeats.map((seat, index) => {
+                                    return <SeatCard key={index} seat={seat} price={movie.price} />;
+                                })}
+                                <div className={cx('ticket-info-between')}>
+                                    <div className={cx('ticket-text')}>Bắp & Nước</div>
+                                    <div className={cx('ticket-total')}>
+                                        {selectedFoods.length} combo, {getTotalCostFood(selectedFoods)} đ
+                                    </div>
+                                </div>
+                                {selectedFoods.map((foodItem, index) => {
+                                    return <FoodCard key={index} foodItem={foodItem} />;
+                                })}
+                                <div className={cx('ticket-vouchers')}>
+                                    {activeVourcher === 0 ? (
+                                        <div className={cx('d-flex align-items-center')}>
+                                            <Button onClick={handleShowInputVourcher}>
+                                                <FontAwesomeIcon icon={faPlusSquare} fontSize="25" />
+                                            </Button>
+                                            <span>Vouchers | Mã giảm giá</span>
+                                        </div>
+                                    ) : (
+                                        <div className={cx('d-flex justify-content-between')}>
+                                            <TextField
+                                                value={valueTextField}
+                                                variant="outlined"
+                                                onChange={(newValue) => {
+                                                    setValueTextField(newValue.target.value);
+                                                }}
+                                                InputProps={{
+                                                    endAdornment: (
+                                                        <IconButton
+                                                            onClick={handleClearTextField}
+                                                            sx={{ visibility: valueTextField ? 'visible' : 'hidden' }}
+                                                        >
+                                                            <ClearIcon />
+                                                        </IconButton>
+                                                    ),
+                                                }}
+                                                placeholder="Nhập mã Vourcher"
+                                                inputProps={{
+                                                    style: { fontSize: 15, padding: 10 },
+                                                }}
+                                                sx={{
+                                                    '& .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root': {
+                                                        padding: 0,
+                                                    },
+                                                    width: 250,
+                                                }}
+                                            />
+
+                                            <button className={cx('button-vourcher')}>Áp dụng</button>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className={cx('ticket-info-bottom')}>
+                                    <div className={cx('line-bottom')}>
+                                        <div className={cx('ticket-line')}></div>
+                                    </div>
+                                    <div className={cx('total-amount')}>
+                                        <div>Tổng cộng:</div>
+                                        <div>{selectedSeats.length * 85000 + getTotalCostFood(selectedFoods)} đ</div>
+                                    </div>
+                                    <div className={cx('group-button')}>{showButton()}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                ) : (
                     <div>
                         <BookingStepper movie={movie} />
                     </div>
-                </div>
-                {/* Ticket Booking Right */}
-                <div className={cx('ticketBooking-right col-4')}>
-                    <div className={cx('ticket-info')}>
-                        <div className={cx('ticket-info-top')}>
-                            <div className={cx('movie-title')}>{movie.name}</div>
-                            <div className={cx('cinema-name')}>L&Q Cineplex Quang Trung</div>
-                            <div className={cx('ticket-time')}>Suất chiếu: 20:00 | Thứ hai, 14/03/2023</div>
-                            <div className={cx('ticket-line')}></div>
-                        </div>
-                        <div className={cx('ticket-info-between')}>
-                            <div className={cx('ticket-text')}>Vé</div>
-                            <div className={cx('ticket-total')}>
-                                {selectedSeats.length} vé, {selectedSeats.length * 85000}đ
-                            </div>
-                        </div>
-                        {selectedSeats.map((seat, index) => {
-                            return <SeatCard key={index} seat={seat} price={movie.price} />;
-                        })}
-                        <div className={cx('ticket-info-between')}>
-                            <div className={cx('ticket-text')}>Bắp & Nước</div>
-                            <div className={cx('ticket-total')}>0 items</div>
-                        </div>
-                        <div className={cx('ticket-vouchers')}>
-                            {activeVourcher === 0 ? (
-                                <div className={cx('d-flex align-items-center')}>
-                                    <Button onClick={handleShowInputVourcher}>
-                                        <FontAwesomeIcon icon={faPlusSquare} fontSize="25" />
-                                    </Button>
-                                    <span>Vouchers | Mã giảm giá</span>
-                                </div>
-                            ) : (
-                                <div className={cx('d-flex justify-content-between')}>
-                                    <TextField
-                                        value={valueTextField}
-                                        variant="outlined"
-                                        onChange={(newValue) => {
-                                            setValueTextField(newValue.target.value);
-                                        }}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <IconButton
-                                                    onClick={handleClearTextField}
-                                                    sx={{ visibility: valueTextField ? 'visible' : 'hidden' }}
-                                                >
-                                                    <ClearIcon />
-                                                </IconButton>
-                                            ),
-                                        }}
-                                        placeholder="Nhập mã Vourcher"
-                                        inputProps={{
-                                            style: { fontSize: 15, padding: 10 },
-                                        }}
-                                        sx={{
-                                            '& .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root': { padding: 0 },
-                                            width: 250,
-                                        }}
-                                    />
-
-                                    <button className={cx('button-vourcher')}>Áp dụng</button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
+                )}
             </div>
             <div></div>
         </div>
