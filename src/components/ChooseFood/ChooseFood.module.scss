@@ -1,0 +1,27 @@
+.wrapper {
+    margin: 30px 25px 0 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 25px;
+    color: #c92522;
+}
+
+.title-line {
+    width: 100px;
+    height: 5px;
+    background-color: #c92522;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.list-card {
+    display: grid;
+    grid-template-columns: repeat(3, min-content);
+    align-items: center;
+    grid-gap: 50px;
+    margin-top: 20px;
+    justify-content: center;
+}

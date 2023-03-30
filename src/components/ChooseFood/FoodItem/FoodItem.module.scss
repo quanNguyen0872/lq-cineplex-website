@@ -1,0 +1,38 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 250px;
+    border: solid 1px #c92522;
+    border-radius: 8px;
+    background-color: #000;
+}
+
+.img-food {
+    width: 200px;
+    height: 140px;
+}
+
+.title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 300;
+    margin-top: 5px;
+}
+
+.cost {
+    text-align: center;
+    font-size: 18px;
+    color: #c92522;
+}
+
+.quantity-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+}
+
+.quantity {
+    padding: 0 20px;
+}
