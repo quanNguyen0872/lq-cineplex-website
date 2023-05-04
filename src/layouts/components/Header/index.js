@@ -5,8 +5,9 @@ import { menuItems } from './Menu/menuItems';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useRef, useState } from 'react';
-import Button from '~/layouts/components/Button';
 import logo from '~/layouts/asset/logo.png';
+import { Button } from '@mui/material';
+
 const cx = classNames.bind(styles);
 
 function Header() {
@@ -67,19 +68,28 @@ function Header() {
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
                 </div>
+                {/* Group button */}
                 <div className={cx('sigin')}>
                     <div className={cx('flex mr-8')}>
                         <Button
-                            className={cx(
-                                'text-black  hover:bg-red-600  bg-lq-white w-36 h-16  text-2xl font-bold justify-center',
-                            )}
+                            className={cx('mx-2')}
+                            style={{
+                                borderRadius: 35,
+                                backgroundColor: 'transparent',
+                                fontSize: '16px',
+                            }}
+                            variant="contained"
                         >
                             Đăng ký
                         </Button>
                         <Button
-                            className={cx(
-                                'text-black  hover:bg-red-600  bg-lq-white w-36 h-16 text-2xl font-bold justify-center ',
-                            )}
+                            className={cx('mx-2')}
+                            style={{
+                                borderRadius: 35,
+                                backgroundColor: '#C92522',
+                                fontSize: '16px',
+                            }}
+                            variant="contained"
                         >
                             Đăng nhập
                         </Button>
