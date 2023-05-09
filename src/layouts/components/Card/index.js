@@ -1,14 +1,23 @@
-import classNames from 'classnames';
-import Button from '~/layouts/components/Button';
+import classNames from 'classnames/bind';
+import styles from './Card.module.scss';
 import config from '~/config';
-const cx = classNames;
+import { Link } from 'react-router-dom';
+const cx = classNames.bind(styles);
 
-function Card({ dataMovie }) {
+function Card({ data }) {
     return (
-        <Button to={config.routes.chitiet} className={cx('flex flex-col items-center w-80 m-4 ')}>
-            <img src={dataMovie.image} alt="poster" className={cx('w-full h-[300px] object-cover rounded-md')} />
-            <div className={cx('break-words text-lq-white ')}> {dataMovie.title} </div>
-        </Button>
+        <Link to={config.routes.chitiet}>
+            <div className={cx('column')}>
+                <div className={cx('card')}>
+                    <img
+                        src={data.image}
+                        style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+                        alt="movie-poster"
+                    />
+                    <h2 style={{ fontSize: '16px', marginTop: '15px' }}>{data.title}</h2>
+                </div>
+            </div>
+        </Link>
     );
 }
 

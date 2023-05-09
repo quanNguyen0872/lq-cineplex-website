@@ -28,7 +28,7 @@ function ChooseFood() {
             </div>
             <div className={cx('list-card')}>
                 {foods.map((food, index) => {
-                    return <FoodItem key={index} food={food} />;
+                    return <FoodItem key={index} dichvu={food} />;
                 })}
             </div>
         </div>

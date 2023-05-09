@@ -1,8 +1,41 @@
-import classNames from 'classnames';
 import Card from '~/layouts/components/Card';
-import Button from '~/layouts/components/Button';
-import { AiOutlineArrowRight } from 'react-icons/ai';
-const cx = classNames;
+import PropTypes from 'prop-types';
+import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { useState } from 'react';
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
 const cardInfo = [
     {
         image: 'https://www.galaxycine.vn/media/2023/3/3/450x300_1677813532298.jpg',
@@ -74,28 +107,47 @@ const cardInfo = [
     },
 ];
 function Movie() {
+    const [value, setValue] = useState(0);
+
+    const handleChange = (_, newValue) => {
+        setValue(newValue);
+    };
+
     const renderListMovie = () => {
         return cardInfo.map((item, index) => {
-            return <Card key={index} dataMovie={item} />;
+            return <Card key={index} data={item} />;
         });
     };
+
     return (
-        <div className={cx('')}>
-            <div className={cx('ml-60 pt-10 text-red-600 text-5xl ')}>
-                Phim đang chiếu
-                <div className={cx('w-52 h-1 bg-red-600 ')}></div>
-            </div>
-            <div className={cx('pl-[200px] pr-[200px] ')}>
-                <div className={cx('flex flex-wrap justify-between')}>{renderListMovie()}</div>
-            </div>
-            <div className={cx('flex justify-end pb-32 mr-32')}>
-                <Button
-                    className={cx(
-                        'text-black  hover:bg-red-600  bg-lq-white w-72 h-16 justify-center text-2xl font-bold',
-                    )}
-                >
-                    Xem thêm <AiOutlineArrowRight />
-                </Button>
+        <div>
+            <div className="w-full mt-4">
+                <div className="w-full mx-14">
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        TabIndicatorProps={{
+                            style: {
+                                backgroundColor: '#C92522',
+                            },
+                        }}
+                        sx={{
+                            '& button': { color: '#fff', fontSize: '18px' },
+                            '& button.Mui-selected': { color: '#C92522' },
+                        }}
+                    >
+                        <Tab label="Phim đang chiếu" {...a11yProps(0)} />
+                        <Tab label="Phim sắp chiếu" {...a11yProps(1)} />
+                    </Tabs>
+                </div>
+                <TabPanel value={value} index={0}>
+                    <div className="flex flex-col">
+                        <div>{renderListMovie()}</div>
+                    </div>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    Phim sắp chiếu
+                </TabPanel>
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import classNames from 'classnames/bind';
 import config from '~/config';
 import styles from './TicketBooking.module.scss';
@@ -11,7 +11,7 @@ import { faPlusSquare } from '@fortawesome/free-regular-svg-icons';
 import Button from '~/layouts/components/Button';
 import SeatCard from '~/components/SeatCard';
 import FoodCard from '~/components/FoodCard';
-import { useStore, actions } from '~/store';
+import { CinemaContext } from '~/store/Context';
 
 const cx = classNames.bind(styles);
 
@@ -22,8 +22,7 @@ const movie = {
 };
 
 function TicketBooking() {
-    const [state, dispath] = useStore();
-    const { selectedSeats, activeStep, selectedFoods } = state;
+    const { selectedSeats, activeStep, setActiveStep, selectedFoods } = useContext(CinemaContext);
 
     const [activeVourcher, setActiceVourcher] = useState(0);
     const [valueTextField, setValueTextField] = useState('');
@@ -37,15 +36,18 @@ function TicketBooking() {
     };
 
     const handleNext = () => {
-        dispath(actions.setActiveStep(activeStep + 1));
+        setActiveStep(activeStep + 1);
+        // dispath(actions.setActiveStep(activeStep + 1));
     };
 
     const handleBack = () => {
-        dispath(actions.setActiveStep(activeStep - 1));
+        setActiveStep(activeStep - 1);
+        // dispath(actions.setActiveStep(activeStep - 1));
     };
 
     const handleSkip = () => {
-        dispath(actions.setActiveStep(activeStep + 2));
+        setActiveStep(activeStep + 2);
+        // dispath(actions.setActiveStep(activeStep + 2));
     };
 
     // const handleReset = () => {
