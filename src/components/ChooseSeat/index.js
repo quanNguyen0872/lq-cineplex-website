@@ -1,18 +1,17 @@
 import './styles.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import clsx from 'clsx';
-import { useStore, actions } from '~/store';
+import { CinemaContext } from '~/store/Context';
 
 function ChooseSeat({ movie }) {
-    const [state, dispath] = useStore();
-    const { selectedSeats } = state;
+    const { selectedSeats, setSelectedSeats } = useContext(CinemaContext);
 
     return (
         <div className="container">
             <Cinema
                 movie={movie}
                 selectedSeats={selectedSeats}
-                onSelectedSeatsChange={(selectedSeats) => dispath(actions.setSelectedSeats(selectedSeats))}
+                onSelectedSeatsChange={(selectedSeats) => setSelectedSeats(selectedSeats)}
             />
 
             <div className="line"></div>

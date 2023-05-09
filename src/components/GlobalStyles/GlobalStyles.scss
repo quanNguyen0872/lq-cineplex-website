@@ -9,17 +9,12 @@
     box-sizing: border-box;
 }
 
-html {
-    font-size: 62.5%;
-}
-
 body {
     font-family: 'Inter', sans-serif;
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizeSpeed;
     background-color: #221f1f;
-    color: white;
 }
 
 input,
@@ -29,7 +24,6 @@ input,
 }
 
 a[href] {
-    color: #fff;
     text-decoration: none;
 }
 h1,

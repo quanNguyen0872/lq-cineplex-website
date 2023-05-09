@@ -9,7 +9,7 @@ import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import ChooseSeat from '../ChooseSeat';
 import ChooseFood from '../ChooseFood';
-import { useStore, actions } from '~/store';
+import { CinemaContext } from '~/store/Context';
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -90,11 +90,10 @@ ColorlibStepIcon.propTypes = {
 const steps = ['Chọn ghế', 'Chọn bắp nước', 'Thanh Toán', 'Vé của bạn'];
 
 function BookingStepper({ movie }) {
-    const [state, dispath] = useStore();
-    const { activeStep } = state;
+    const { activeStep, setActiveStep } = React.useContext(CinemaContext);
 
     const handleReset = () => {
-        dispath(actions.setActiveStep(0));
+        setActiveStep(0);
     };
 
     function getStepContent(step) {

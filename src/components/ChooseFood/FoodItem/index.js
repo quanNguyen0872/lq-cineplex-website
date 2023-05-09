@@ -3,16 +3,16 @@ import styles from './FoodItem.module.scss';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import Button from '~/layouts/components/Button';
-import { useStore, actions } from '~/store';
+import { useContext } from 'react';
+import { CinemaContext } from '~/store/Context';
 
 const cx = classNames.bind(styles);
 
-function FoodItem({ food }) {
-    const [state, dispath] = useStore();
-    const { selectedFoods } = state;
+function FoodItem({ dichvu }) {
+    const { selectedDichVu, setSelectedDichVu } = useContext(CinemaContext);
 
     const getFoodQuantity = (id) => {
-        const quantity = selectedFoods.find((foodItem) => foodItem.food.id === id)?.quantity;
+        const quantity = selectedDichVu.find((dichVuItem) => dichVuItem.dichvu.id === id)?.quantity;
         if (quantity === undefined) {
             return 0;
         }
@@ -20,58 +20,52 @@ function FoodItem({ food }) {
     };
 
     const handleAddFood = () => {
-        const id = food.id;
+        const id = dichvu.id;
         const quantity = getFoodQuantity(id);
         if (quantity === 0) {
-            //food is not in cart
-            dispath(actions.addFood([...selectedFoods, { food: food, quantity: 1 }]));
+            setSelectedDichVu([...selectedDichVu, { dichvu: dichvu, quantity: 1 }]);
         } else {
-            // food is in cart
-            dispath(
-                actions.addFood(
-                    selectedFoods.map((foodItem) =>
-                        foodItem.food.id === id ? { ...foodItem, quantity: foodItem.quantity + 1 } : foodItem,
-                    ),
+            setSelectedDichVu(
+                selectedDichVu.map((dichVuItem) =>
+                    dichVuItem.dichvu.id === id ? { ...dichVuItem, quantity: dichVuItem.quantity + 1 } : dichVuItem,
                 ),
             );
         }
     };
 
     const handleRemoveFood = () => {
-        const id = food.id;
+        const id = dichvu.id;
         const quantity = getFoodQuantity(id);
         if (quantity === 1) {
             removeFoodById(id);
         } else {
-            dispath(
-                actions.addFood(
-                    selectedFoods.map((foodItem) =>
-                        foodItem.food.id === id ? { ...foodItem, quantity: foodItem.quantity - 1 } : foodItem,
-                    ),
+            setSelectedDichVu(
+                selectedDichVu.map((dichVuItem) =>
+                    dichVuItem.dichvu.id === id ? { ...dichVuItem, quantity: dichVuItem.quantity - 1 } : dichVuItem,
                 ),
             );
         }
     };
 
     const removeFoodById = (id) => {
-        const arrayFoods = selectedFoods;
-        const index = arrayFoods.findIndex((x) => x.food.id === id);
-        arrayFoods.splice(index, 1);
-        dispath(actions.addFood([...arrayFoods]));
+        const arrayDichVu = selectedDichVu;
+        const index = arrayDichVu.findIndex((x) => x.dichvu.id === id);
+        arrayDichVu.splice(index, 1);
+        setSelectedDichVu([...arrayDichVu]);
     };
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('img-food')}>
-                <img src={food.img} alt="FoodImage" />
+                <img src={dichvu.img} alt="FoodImage" />
             </div>
-            <div className={cx('title')}>{food.title}</div>
-            <div className={cx('cost')}>{food.cost} đ</div>
+            <div className={cx('title')}>{dichvu.title}</div>
+            <div className={cx('cost')}>{dichvu.cost} đ</div>
             <div className={cx('quantity-wrapper')}>
                 <Button onClick={handleRemoveFood}>
                     <RemoveCircleOutlineIcon sx={{ fontSize: 25 }} />
                 </Button>
-                <div className={cx('quantity')}>{getFoodQuantity(food.id)}</div>
+                <div className={cx('quantity')}>{getFoodQuantity(dichvu.id)}</div>
                 <Button onClick={handleAddFood}>
                     <AddCircleOutlineIcon sx={{ fontSize: 25 }} />
                 </Button>

@@ -4,15 +4,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'react-slideshow-image/dist/styles.css';
 import GlobalStyles from '~/components/GlobalStyles';
-import { StoreProvider } from './store';
+import Provider from './store/Provider';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <GlobalStyles>
-            <StoreProvider>
-                <App />
-            </StoreProvider>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+                <Provider>
+                    <App />
+                </Provider>
+            </LocalizationProvider>
         </GlobalStyles>
     </React.StrictMode>,
 );
