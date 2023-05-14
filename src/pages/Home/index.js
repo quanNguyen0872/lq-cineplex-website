@@ -4,9 +4,10 @@ import Slide from '~/layouts/components/Slide';
 import PropTypes from 'prop-types';
 import Card from '~/layouts/components/Card';
 import { Box, Button, Tab, Tabs, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import { CinemaContext } from '~/store/Context';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -21,7 +22,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    <Typography component={'span'}>{children}</Typography>
                 </Box>
             )}
         </div>
@@ -43,52 +44,6 @@ function a11yProps(index) {
 
 const cx = classNames.bind(styles);
 
-const cardInfo = [
-    {
-        image: 'https://www.galaxycine.vn/media/2023/3/3/450x300_1677813532298.jpg',
-        title: 'SIÊU LỪA SIÊU LẦY',
-    },
-    {
-        image: 'https://cdn.galaxycine.vn/media/2023/3/6/450x300-1_1678072225628.jpg',
-        title: 'CUỘC CHIẾN THỜI TIỀN SỬ',
-    },
-    {
-        image: 'https://cdn.galaxycine.vn/media/2023/2/17/450x300-chuot_1676619353890.jpg            ',
-        title: 'CHUỘT NHÍ VÀ SỨ MỆNH',
-        text: 'kkkk',
-    },
-    {
-        image: 'https://cdn.galaxycine.vn/media/2023/2/17/antman-3-5_1676600944892.jpg',
-        title: 'NGƯỜI KIẾN VÀ CHIẾN BINH ONG',
-    },
-    {
-        image: 'https://cdn.galaxycine.vn/media/2023/2/14/450x300_1676362573876.jpg            ',
-        title: 'MISSING',
-    },
-    {
-        image: 'https://www.galaxycine.vn/media/2023/3/3/450x300_1677813532298.jpg',
-        title: 'Siêu lừa gặp siêu lầy',
-    },
-    {
-        image: 'https://www.galaxycine.vn/media/2023/3/3/450x300_1677813532298.jpg',
-        title: 'Siêu lừa gặp siêu lầy',
-    },
-    {
-        image: 'https://www.galaxycine.vn/media/2023/3/3/450x300_1677813532298.jpg',
-        title: 'Siêu lừa gặp siêu lầy',
-        text: 'kkkk',
-    },
-    {
-        image: 'https://www.galaxycine.vn/media/2023/3/3/450x300_1677813532298.jpg',
-        title: 'Siêu lừa gặp siêu lầy',
-        text: 'kkkk',
-    },
-    {
-        image: 'https://www.galaxycine.vn/media/2023/3/3/450x300_1677813532298.jpg',
-        title: 'Siêu lừa gặp siêu lầy',
-        text: 'kkkk',
-    },
-];
 const cardSukien = [
     {
         image: 'https://cdn.galaxycine.vn/media/2022/12/10/combo-u22-digital-300x450-1667285239633_1670637604853.jpg',
@@ -106,6 +61,7 @@ const cardSukien = [
 
 function Home() {
     const [value, setValue] = useState(0);
+    const { dsphim } = useContext(CinemaContext);
 
     const navigate = useNavigate();
 
@@ -115,10 +71,10 @@ function Home() {
 
     const handleXemThem = () => {
         navigate('/phim');
-        window.scrollTo(0, 0);
     };
+
     const renderListMovie = () => {
-        return cardInfo.slice(0, 8).map((item, index) => {
+        return dsphim.slice(0, 8).map((item, index) => {
             return <Card key={index} data={item} />;
         });
     };
@@ -145,7 +101,11 @@ function Home() {
                             },
                         }}
                         sx={{
-                            '& button': { color: '#fff', fontSize: '18px' },
+                            '& button': {
+                                color: '#fff',
+                                fontSize: '20px',
+                                fontWeight: '500',
+                            },
                             '& button.Mui-selected': { color: '#C92522' },
                         }}
                     >
@@ -161,8 +121,17 @@ function Home() {
                                 className={cx('button-more')}
                                 type="button"
                                 variant="outlined"
-                                color="error"
                                 onClick={handleXemThem}
+                                sx={{
+                                    color: '#c92522',
+                                    borderColor: '#c92522',
+                                    borderWidth: '2px',
+                                    '&:hover': {
+                                        borderColor: '#c92522',
+                                        color: '#c92522',
+                                        borderWidth: '2px',
+                                    },
+                                }}
                             >
                                 Xem thêm <AiOutlineArrowRight style={{ marginLeft: '10px', fontSize: '25px' }} />
                             </Button>
@@ -175,8 +144,7 @@ function Home() {
             </div>
 
             <span className={cx('textsukien')}>Sự kiện</span>
-
-            <div>{renderListSukien()}</div>
+            <div className={cx('mx-4')}>{renderListSukien()}</div>
         </div>
     );
 }

@@ -34,15 +34,12 @@
     flex-wrap: wrap;
 }
 .textsukien {
-    margin-left: 200px;
-    font-size: 40px;
-    color: rgb(240, 6, 6);
-    font-weight: bold;
-}
-.sukien {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    width: fit-content;
+    margin: 0 40px;
+    font-size: 30px;
+    color: #c92522;
+    font-weight: 400;
+    border-bottom: 2px solid #c92522;
 }
 
 .button-more {

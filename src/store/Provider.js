@@ -1,6 +1,9 @@
 import KhachHangService from '~/services/khachHangService';
 import { CinemaContext } from './Context';
 import { useEffect, useState } from 'react';
+import PhimService from '~/services/phimService';
+import RapService from '~/services/rapService';
+import DichVuService from '~/services/dichVuService';
 
 function Provider({ children }) {
     const [user, setUser] = useState(null);
@@ -18,12 +21,39 @@ function Provider({ children }) {
     const [openModalDangNhap, setOpenModalDangNhap] = useState(false);
     const [openModalForgetPass, setOpenModalForgetPass] = useState(false);
 
+    // Load Danh sach phim
+    useEffect(() => {
+        const fetchApi = async () => {
+            const res = await PhimService.getDsPhim();
+            setdsphim(res);
+        };
+        fetchApi();
+    }, []);
+
     // Get User Profile
     useEffect(() => {
         const fetchApi = async () => {
             const user = JSON.parse(localStorage.getItem('user'));
             const res = await KhachHangService.getUser(user && user.email);
             setUser(res);
+        };
+        fetchApi();
+    }, []);
+
+    // Load Danh sach rap
+    useEffect(() => {
+        const fetchApi = async () => {
+            const res = await RapService.getDsRap();
+            setDsRap(res);
+        };
+        fetchApi();
+    }, []);
+
+    // Load Danh sach dich vu
+    useEffect(() => {
+        const fetchApi = async () => {
+            const res = await DichVuService.getDsDichVu();
+            setDsDichVu(res);
         };
         fetchApi();
     }, []);
