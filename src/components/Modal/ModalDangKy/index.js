@@ -132,6 +132,7 @@ function ModalDangKy() {
             onClose={handleCloseModal}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            style={{ backdropFilter: 'blur(2px)' }}
         >
             <Box sx={{ ...style, width: 520, height: 'auto' }} className={cx('container-modal')}>
                 <div className={cx('header-modal')}>

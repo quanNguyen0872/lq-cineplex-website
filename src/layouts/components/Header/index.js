@@ -36,7 +36,7 @@ function Header() {
 
     const inputRef = useRef();
 
-    console.log(searchResult);
+    // console.log(searchResult);
 
     const handleClear = () => {
         setSearchValue('');

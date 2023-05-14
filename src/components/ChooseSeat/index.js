@@ -1,15 +1,36 @@
 import './styles.css';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { CinemaContext } from '~/store/Context';
+import GheService from '~/services/gheService';
 
-function ChooseSeat({ movie }) {
+function ChooseSeat({ lichchieu, dsGhe }) {
     const { selectedSeats, setSelectedSeats } = useContext(CinemaContext);
+    const [dsGheDaBan, setDsGheDaBan] = useState([]);
+
+    useEffect(() => {
+        const fetchApi = async () => {
+            const res = await GheService.getDsGheDaBan(lichchieu.id);
+            setDsGheDaBan(res);
+        };
+        fetchApi();
+    }, [lichchieu.id]);
+    const loadDsGheDaBan = () => {
+        const listOccupied = [];
+        dsGheDaBan.forEach((ghe) => {
+            const occupied = ghe.hang + ghe.cot;
+            listOccupied.push(occupied);
+        });
+        lichchieu.occupied = [...listOccupied];
+    };
+
+    loadDsGheDaBan();
 
     return (
         <div className="container">
             <Cinema
-                movie={movie}
+                lichchieu={lichchieu}
+                seats={dsGhe}
                 selectedSeats={selectedSeats}
                 onSelectedSeatsChange={(selectedSeats) => setSelectedSeats(selectedSeats)}
             />
@@ -20,7 +41,7 @@ function ChooseSeat({ movie }) {
 
             <div className="info">
                 Bạn đã chọn <span className="count">{selectedSeats.length}</span> ghế với tổng tiền là{' '}
-                <span className="total">{selectedSeats.length * movie.price} vnd</span>
+                <span className="total">{selectedSeats.length * 85000} vnd</span>
             </div>
         </div>
     );
@@ -42,22 +63,7 @@ function ShowCase() {
     );
 }
 
-function SeatLabel() {
-    var A = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-    var B = [1, 2, 3, 4, 5, 6, 7, 8];
-    var labels = [];
-    for (let i = 0; i < A.length; i++) {
-        for (let j = 0; j < B.length; j++) {
-            let result = A[i] + B[j];
-            labels.push(result);
-        }
-    }
-    return labels;
-}
-
-const seats = Array.from({ length: 6 * 8 }, (_, i) => SeatLabel()[i]);
-
-function Cinema({ movie, selectedSeats, onSelectedSeatsChange }) {
+function Cinema({ lichchieu, seats, selectedSeats, onSelectedSeatsChange }) {
     function handleSelectedState(seat) {
         const isSelected = selectedSeats.includes(seat);
         if (isSelected) {
@@ -74,7 +80,7 @@ function Cinema({ movie, selectedSeats, onSelectedSeatsChange }) {
             <div className="seats">
                 {seats.map((seat, index) => {
                     const isSelected = selectedSeats.includes(seat);
-                    const isOccupied = movie.occupied.includes(seat);
+                    const isOccupied = lichchieu.occupied.includes(seat.hang + seat.cot);
 
                     return (
                         <span
@@ -92,7 +98,7 @@ function Cinema({ movie, selectedSeats, onSelectedSeatsChange }) {
                                       }
                             }
                         >
-                            <div className="label">{seat}</div>
+                            <div className="label">{seat.hang + seat.cot}</div>
                         </span>
                     );
                 })}

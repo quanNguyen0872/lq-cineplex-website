@@ -18,13 +18,16 @@ const divStyle = {
 };
 const slideImages = [
     {
-        url: 'https://www.galaxycine.vn/media/2023/2/17/1042x347_1676605190470.jpg',
+        url: 'https://lqcineplex.s3.ap-southeast-1.amazonaws.com/slide_1.jpg',
     },
     {
-        url: '	https://www.galaxycine.vn/media/2023/3/3/1042x347-1_1677813237498.jpg',
+        url: 'https://lqcineplex.s3.ap-southeast-1.amazonaws.com/slide_2.jpg',
     },
     {
-        url: '	https://www.galaxycine.vn/media/2023/3/1/1042x347_1677644344277.jpg',
+        url: 'https://lqcineplex.s3.ap-southeast-1.amazonaws.com/slide_3.png',
+    },
+    {
+        url: 'https://lqcineplex.s3.ap-southeast-1.amazonaws.com/slide_4.jpg',
     },
 ];
 

@@ -5,7 +5,6 @@ import classNames from 'classnames/bind';
 import styles from './ModalDangNhap.module.scss';
 import ClearIcon from '@mui/icons-material/Clear';
 import AuthService from '~/services/authService';
-import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -39,8 +38,6 @@ function ModalDangNhap() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const navigate = useNavigate();
-
     const handleCloseModal = () => {
         setOpenModalDangNhap(false);
     };
@@ -61,7 +58,6 @@ function ModalDangNhap() {
     const handleLogin = (e) => {
         e.preventDefault();
         AuthService.login(username, password).then(() => {
-            navigate('/');
             window.location.reload();
         });
     };
@@ -72,6 +68,7 @@ function ModalDangNhap() {
             onClose={handleCloseModal}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            style={{ backdropFilter: 'blur(2px)' }}
         >
             <form>
                 <Box sx={{ ...style, width: 520, height: 'auto' }} className={cx('container-modal')}>

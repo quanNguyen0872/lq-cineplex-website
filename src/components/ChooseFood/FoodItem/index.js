@@ -56,11 +56,12 @@ function FoodItem({ dichvu }) {
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('img-food')}>
-                <img src={dichvu.img} alt="FoodImage" />
+            <img className={cx('img-food')} src={dichvu.hinhAnh} alt="FoodImage" />
+
+            <div className={cx('title')}>{dichvu.tenDichVu}</div>
+            <div className={cx('cost')}>
+                {Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(dichvu.donGia)}
             </div>
-            <div className={cx('title')}>{dichvu.title}</div>
-            <div className={cx('cost')}>{dichvu.cost} đ</div>
             <div className={cx('quantity-wrapper')}>
                 <Button onClick={handleRemoveFood}>
                     <RemoveCircleOutlineIcon sx={{ fontSize: 25 }} />

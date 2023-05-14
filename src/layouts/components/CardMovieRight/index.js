@@ -4,7 +4,7 @@ import config from '~/config';
 import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
-function Card({ data }) {
+function CardMovieRight({ data }) {
     return (
         <>
             {data.tenPhim ? (
@@ -48,4 +48,4 @@ function Card({ data }) {
     );
 }
 
-export default Card;
+export default CardMovieRight;
