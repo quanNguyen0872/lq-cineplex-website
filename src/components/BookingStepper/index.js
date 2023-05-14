@@ -18,8 +18,9 @@ import DonDatService from '~/services/donDatService';
 import ChiTietDichVuService from '~/services/chiTietDichVuService';
 import VeService from '~/services/veService';
 import TicketCard from '../TicketCard';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import config from '~/config';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 const cx = classNames.bind(styles);
 
@@ -109,6 +110,7 @@ function BookingStepper({ lichchieu, dsGhe }) {
     const movie = lichchieu.phim;
     const ngayChieu = moment(lichchieu.ngayChieu).locale('vi', vi).format('dddd, DD/MM/YYYY');
     const gioBatDau = moment(lichchieu.gioBatDau, 'HH:mm:ss').format('HH:mm');
+    const [openPaypal, setOpenPaypal] = React.useState(false);
 
     console.log(dsDichVuDaDat);
 
@@ -189,28 +191,7 @@ function BookingStepper({ lichchieu, dsGhe }) {
     }
 
     const handleThanhToan = () => {
-        const ngayDat = new Date();
-        const tongTien = selectedSeats.length * 85000 + getTotalCostFood(selectedDichVu);
-        const fetchApiDonDat = async () => {
-            await DonDatService.addDonDat(ngayDat, user, tongTien).then((res) => {
-                const dschiTietDichVu = loadDsChiTietDichVu(res);
-                const fetchApiChiTietDichVu = async () => {
-                    await ChiTietDichVuService.addAllChiTietDichVu(dschiTietDichVu).then((res) => {
-                        setDsVeDichVuDaDat(res);
-                    });
-                };
-                fetchApiChiTietDichVu();
-                const dsve = loadDsVe(res);
-                const fetchApiVe = async () => {
-                    await VeService.addAllVe(dsve).then((res) => {
-                        setDsVeDaDat(res);
-                    });
-                };
-                fetchApiVe();
-            });
-        };
-        fetchApiDonDat();
-        setActiveStep(3);
+        setOpenPaypal(true);
     };
 
     const handleNext = () => {
@@ -321,6 +302,68 @@ function BookingStepper({ lichchieu, dsGhe }) {
                                 </div>
                                 <div className={cx('group-button')}>{showButton()}</div>
                             </div>
+                        </div>
+                        <div>
+                            {openPaypal === true ? (
+                                <PayPalScriptProvider
+                                    options={{
+                                        'client-id':
+                                            'AUvLbiTrI3ay_S81ctKx9KBxZvUJG1bV_BJ-SDs-NgFTvohSNth28JzYWrhrRFmeyplXSP9TW8zFbURR',
+                                    }}
+                                >
+                                    <PayPalButtons
+                                        createOrder={(data, actions) => {
+                                            return actions.order.create({
+                                                purchase_units: [
+                                                    {
+                                                        amount: {
+                                                            value: (
+                                                                (selectedSeats.length * 85000 +
+                                                                    getTotalCostFood(selectedDichVu)) *
+                                                                0.00004
+                                                            ).toFixed(2),
+                                                        },
+                                                    },
+                                                ],
+                                            });
+                                        }}
+                                        onApprove={(_, actions) => {
+                                            return actions.order.capture().then(() => {
+                                                alert('Thanh toan thanh cong ');
+                                                const ngayDat = new Date();
+                                                const tongTien =
+                                                    selectedSeats.length * 85000 + getTotalCostFood(selectedDichVu);
+                                                const fetchApiDonDat = async () => {
+                                                    await DonDatService.addDonDat(ngayDat, user, tongTien).then(
+                                                        (res) => {
+                                                            const dschiTietDichVu = loadDsChiTietDichVu(res);
+                                                            const fetchApiChiTietDichVu = async () => {
+                                                                await ChiTietDichVuService.addAllChiTietDichVu(
+                                                                    dschiTietDichVu,
+                                                                ).then((res) => {
+                                                                    setDsVeDichVuDaDat(res);
+                                                                });
+                                                            };
+                                                            fetchApiChiTietDichVu();
+                                                            const dsve = loadDsVe(res);
+                                                            const fetchApiVe = async () => {
+                                                                await VeService.addAllVe(dsve).then((res) => {
+                                                                    setDsVeDaDat(res);
+                                                                });
+                                                            };
+                                                            fetchApiVe();
+                                                        },
+                                                    );
+                                                };
+                                                fetchApiDonDat();
+                                                setActiveStep(3);
+                                            });
+                                        }}
+                                    />
+                                </PayPalScriptProvider>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
                 );
