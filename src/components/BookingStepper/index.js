@@ -106,13 +106,10 @@ function BookingStepper({ lichchieu, dsGhe }) {
     const { activeStep, setActiveStep, selectedSeats, setSelectedSeats, selectedDichVu, setSelectedDichVu, user } =
         React.useContext(CinemaContext);
     const [dsVeDaDat, setDsVeDaDat] = React.useState([]);
-    const [dsDichVuDaDat, setDsVeDichVuDaDat] = React.useState([]);
     const movie = lichchieu.phim;
     const ngayChieu = moment(lichchieu.ngayChieu).locale('vi', vi).format('dddd, DD/MM/YYYY');
     const gioBatDau = moment(lichchieu.gioBatDau, 'HH:mm:ss').format('HH:mm');
     const [openPaypal, setOpenPaypal] = React.useState(false);
-
-    console.log(dsDichVuDaDat);
 
     const navigate = useNavigate();
 
@@ -301,69 +298,68 @@ function BookingStepper({ lichchieu, dsGhe }) {
                                     </div>
                                 </div>
                                 <div className={cx('group-button')}>{showButton()}</div>
+                                <div>
+                                    {openPaypal === true ? (
+                                        <PayPalScriptProvider
+                                            options={{
+                                                'client-id':
+                                                    'AUvLbiTrI3ay_S81ctKx9KBxZvUJG1bV_BJ-SDs-NgFTvohSNth28JzYWrhrRFmeyplXSP9TW8zFbURR',
+                                            }}
+                                        >
+                                            <PayPalButtons
+                                                createOrder={(data, actions) => {
+                                                    return actions.order.create({
+                                                        purchase_units: [
+                                                            {
+                                                                amount: {
+                                                                    value: (
+                                                                        (selectedSeats.length * 85000 +
+                                                                            getTotalCostFood(selectedDichVu)) *
+                                                                        0.00004
+                                                                    ).toFixed(2),
+                                                                },
+                                                            },
+                                                        ],
+                                                    });
+                                                }}
+                                                onApprove={(_, actions) => {
+                                                    return actions.order.capture().then(() => {
+                                                        alert('Thanh toan thanh cong ');
+                                                        const ngayDat = new Date();
+                                                        const tongTien =
+                                                            selectedSeats.length * 85000 +
+                                                            getTotalCostFood(selectedDichVu);
+                                                        const fetchApiDonDat = async () => {
+                                                            await DonDatService.addDonDat(ngayDat, user, tongTien).then(
+                                                                (res) => {
+                                                                    const dschiTietDichVu = loadDsChiTietDichVu(res);
+                                                                    const fetchApiChiTietDichVu = async () => {
+                                                                        await ChiTietDichVuService.addAllChiTietDichVu(
+                                                                            dschiTietDichVu,
+                                                                        ).then((res) => {});
+                                                                    };
+                                                                    fetchApiChiTietDichVu();
+                                                                    const dsve = loadDsVe(res);
+                                                                    const fetchApiVe = async () => {
+                                                                        await VeService.addAllVe(dsve).then((res) => {
+                                                                            setDsVeDaDat(res);
+                                                                        });
+                                                                    };
+                                                                    fetchApiVe();
+                                                                },
+                                                            );
+                                                        };
+                                                        fetchApiDonDat();
+                                                        setActiveStep(3);
+                                                    });
+                                                }}
+                                            />
+                                        </PayPalScriptProvider>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            {openPaypal === true ? (
-                                <PayPalScriptProvider
-                                    options={{
-                                        'client-id':
-                                            'AUvLbiTrI3ay_S81ctKx9KBxZvUJG1bV_BJ-SDs-NgFTvohSNth28JzYWrhrRFmeyplXSP9TW8zFbURR',
-                                    }}
-                                >
-                                    <PayPalButtons
-                                        createOrder={(data, actions) => {
-                                            return actions.order.create({
-                                                purchase_units: [
-                                                    {
-                                                        amount: {
-                                                            value: (
-                                                                (selectedSeats.length * 85000 +
-                                                                    getTotalCostFood(selectedDichVu)) *
-                                                                0.00004
-                                                            ).toFixed(2),
-                                                        },
-                                                    },
-                                                ],
-                                            });
-                                        }}
-                                        onApprove={(_, actions) => {
-                                            return actions.order.capture().then(() => {
-                                                alert('Thanh toan thanh cong ');
-                                                const ngayDat = new Date();
-                                                const tongTien =
-                                                    selectedSeats.length * 85000 + getTotalCostFood(selectedDichVu);
-                                                const fetchApiDonDat = async () => {
-                                                    await DonDatService.addDonDat(ngayDat, user, tongTien).then(
-                                                        (res) => {
-                                                            const dschiTietDichVu = loadDsChiTietDichVu(res);
-                                                            const fetchApiChiTietDichVu = async () => {
-                                                                await ChiTietDichVuService.addAllChiTietDichVu(
-                                                                    dschiTietDichVu,
-                                                                ).then((res) => {
-                                                                    setDsVeDichVuDaDat(res);
-                                                                });
-                                                            };
-                                                            fetchApiChiTietDichVu();
-                                                            const dsve = loadDsVe(res);
-                                                            const fetchApiVe = async () => {
-                                                                await VeService.addAllVe(dsve).then((res) => {
-                                                                    setDsVeDaDat(res);
-                                                                });
-                                                            };
-                                                            fetchApiVe();
-                                                        },
-                                                    );
-                                                };
-                                                fetchApiDonDat();
-                                                setActiveStep(3);
-                                            });
-                                        }}
-                                    />
-                                </PayPalScriptProvider>
-                            ) : (
-                                <></>
-                            )}
                         </div>
                     </div>
                 );

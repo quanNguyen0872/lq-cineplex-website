@@ -24,12 +24,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0 25px;
 }
 
 .movie-title {
     font-size: 25px;
     font-weight: 800;
     padding-top: 20px;
+    text-align: center;
 }
 
 .cinema-name {
@@ -50,8 +52,9 @@
 }
 
 .ticket-info-between {
-    margin: 0 25px;
     margin-top: 10px;
+    margin-right: 25px;
+    margin-left: 25px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
