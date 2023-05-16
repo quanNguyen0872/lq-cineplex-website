@@ -1,16 +1,19 @@
 import moment from 'moment';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import config from '~/config';
 import LichChieuService from '~/services/lichchieuService';
 import classNames from 'classnames/bind';
 import styles from './ShowtimeCard.module.scss';
 import { Button } from '@mui/material';
+import { CinemaContext } from '~/store/Context';
 
 const cx = classNames.bind(styles);
 
 function ShowtimeCard({ marap, tenrap, maphim, ngaychieu }) {
     const [dsLichChieu, setDsLichChieu] = useState([]);
+    const { user, setOpenModalDangNhap } = useContext(CinemaContext);
+    const navigate = useNavigate();
 
     // Load danh sach lich chieu
     useEffect(() => {
@@ -31,25 +34,28 @@ function ShowtimeCard({ marap, tenrap, maphim, ngaychieu }) {
                         {dsLichChieu.map((lichchieu) => {
                             const gioBatDau = moment(lichchieu.gioBatDau, 'HH:mm:ss').format('HH:mm');
                             return (
-                                <div key={lichchieu.id}>
-                                    <Link to={config.routes.datve} state={lichchieu} className={cx('mr-5')}>
-                                        <Button
-                                            sx={{
-                                                fontSize: '18px',
-                                                color: '#cccccc',
-                                                borderColor: '#cccccc',
+                                <div key={lichchieu.id} className={cx('mr-5')}>
+                                    <Button
+                                        sx={{
+                                            fontSize: '18px',
+                                            color: '#cccccc',
+                                            borderColor: '#cccccc',
+                                            borderWidth: '2px',
+                                            '&:hover': {
+                                                borderColor: '#c92522',
+                                                color: '#c92522',
                                                 borderWidth: '2px',
-                                                '&:hover': {
-                                                    borderColor: '#c92522',
-                                                    color: '#c92522',
-                                                    borderWidth: '2px',
-                                                },
-                                            }}
-                                            variant="outlined"
-                                        >
-                                            {gioBatDau}
-                                        </Button>
-                                    </Link>
+                                            },
+                                        }}
+                                        variant="outlined"
+                                        onClick={() => {
+                                            user
+                                                ? navigate(config.routes.datve, { state: lichchieu })
+                                                : setOpenModalDangNhap(true);
+                                        }}
+                                    >
+                                        {gioBatDau}
+                                    </Button>
                                 </div>
                             );
                         })}

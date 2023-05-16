@@ -58,10 +58,6 @@ function TicketBooking() {
         setActiveStep(activeStep + 2);
     };
 
-    // const handleReset = () => {
-    //     dispath(actions.setActiveStep(0));
-    // };
-
     function showButton() {
         if (activeStep === 0) {
             return (
