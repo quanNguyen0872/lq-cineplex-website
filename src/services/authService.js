@@ -34,6 +34,24 @@ const logout = async () => {
     });
 };
 
+export async function getAccountUserById(id) {
+    try {
+        const res = await request.get(`auth/user/${id}`);
+        return res.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export async function updateAccountUser(userAcc) {
+    try {
+        const res = await request.put('auth/user', userAcc);
+        return res.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem('user'));
 };
@@ -43,6 +61,8 @@ const AuthService = {
     login,
     logout,
     getCurrentUser,
+    getAccountUserById,
+    updateAccountUser,
 };
 
 export default AuthService;

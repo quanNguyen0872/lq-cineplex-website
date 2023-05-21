@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import config from '~/config';
 import LichChieuService from '~/services/lichchieuService';
 import classNames from 'classnames/bind';
-import styles from './ShowtimeCard.module.scss';
+import vi from 'moment/locale/vi';
 import { Button } from '@mui/material';
 import { CinemaContext } from '~/store/Context';
 
-const cx = classNames.bind(styles);
+const cx = classNames;
 
 function ShowtimeCard({ marap, tenrap, maphim, ngaychieu }) {
     const [dsLichChieu, setDsLichChieu] = useState([]);
@@ -19,7 +19,23 @@ function ShowtimeCard({ marap, tenrap, maphim, ngaychieu }) {
     useEffect(() => {
         const fetchApiLichChieu = async () => {
             await LichChieuService.getDsLichChieuPhimRapNgayChieu(maphim, marap, ngaychieu).then((res) => {
-                setDsLichChieu(res);
+                const listlichchieu = [];
+                res.forEach((lichchieu) => {
+                    if (
+                        moment(lichchieu.ngayChieu).locale('vi', vi).format('DD/MM/YYYY') ===
+                        moment(new Date()).locale('vi', vi).format('DD/MM/YYYY')
+                    ) {
+                        if (
+                            parseInt(moment(lichchieu.gioBatDau, 'HH:mm:ss').format('HH:mm').split(':')[0]) >
+                            moment(new Date()).get('hour')
+                        ) {
+                            listlichchieu.push(lichchieu);
+                        }
+                    } else {
+                        listlichchieu.push(lichchieu);
+                    }
+                });
+                setDsLichChieu(listlichchieu);
             });
         };
         fetchApiLichChieu();
@@ -30,17 +46,18 @@ function ShowtimeCard({ marap, tenrap, maphim, ngaychieu }) {
             {dsLichChieu.length !== 0 ? (
                 <div className={cx('mb-5')}>
                     <div className={cx('w-fit pl-5 pr-10 py-2 bg-[#a11e1b] text-[#fff] text-xl')}>{tenrap}</div>
-                    <div className={cx('flex py-10 px-5')} style={{ border: '2px solid #cccccc' }}>
+                    <div className={cx('flex py-10 px-5')} style={{ border: '2px solid #b8b8b8' }}>
                         {dsLichChieu.map((lichchieu) => {
                             const gioBatDau = moment(lichchieu.gioBatDau, 'HH:mm:ss').format('HH:mm');
                             return (
-                                <div key={lichchieu.id} className={cx('mr-5')}>
+                                <div key={lichchieu.id}>
                                     <Button
                                         sx={{
                                             fontSize: '18px',
-                                            color: '#cccccc',
-                                            borderColor: '#cccccc',
+                                            color: '#b8b8b8',
+                                            borderColor: '#b8b8b8',
                                             borderWidth: '2px',
+                                            marginRight: '20px',
                                             '&:hover': {
                                                 borderColor: '#c92522',
                                                 color: '#c92522',

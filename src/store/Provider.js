@@ -19,6 +19,7 @@ function Provider({ children }) {
 
     const [openModalDangKy, setOpenModalDangKy] = useState(false);
     const [openModalDangNhap, setOpenModalDangNhap] = useState(false);
+    const [openModalChangePassword, setOpenModalChangePassword] = useState(false);
     const [openModalForgetPass, setOpenModalForgetPass] = useState(false);
 
     // Load Danh sach phim
@@ -84,6 +85,8 @@ function Provider({ children }) {
                 setOpenModalDangKy,
                 openModalDangNhap,
                 setOpenModalDangNhap,
+                openModalChangePassword,
+                setOpenModalChangePassword,
                 openModalForgetPass,
                 setOpenModalForgetPass,
             }}
