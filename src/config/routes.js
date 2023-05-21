@@ -6,6 +6,7 @@ const routes = {
     gocdienanh: '/gocdienanh',
     sukien: '/sukien',
     datve: '/datve',
+    taikhoan: '/taikhoan',
 };
 
 export default routes;

@@ -36,7 +36,7 @@ function Header() {
 
     const inputRef = useRef();
 
-    // console.log(searchResult);
+    console.log(searchResult);
 
     const handleClear = () => {
         setSearchValue('');
@@ -112,7 +112,7 @@ function Header() {
                         <Link
                             className={cx('px-3 pt-3 w-52 flex items-center font-semibold hover:text-red-600')}
                             type="button"
-                            to={config.routes.userprofile}
+                            to={config.routes.taikhoan}
                             style={{ fontSize: '18px' }}
                         >
                             Tài khoản
@@ -161,9 +161,6 @@ function Header() {
                         </div>
                     </div>
                 )}
-                {/* Group button */}
-
-                {/* Button Sign in - Sign up */}
             </div>
         </header>
     );

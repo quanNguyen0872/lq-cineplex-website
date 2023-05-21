@@ -19,9 +19,20 @@ export const addKhachHang = async (khachhang) => {
         console.log(error);
     }
 };
+
+export const updateKhachHang = async (khachhang) => {
+    try {
+        const res = await request.put('dskhachhang', khachhang);
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const KhachHangService = {
     getUser,
     addKhachHang,
+    updateKhachHang,
 };
 
 export default KhachHangService;

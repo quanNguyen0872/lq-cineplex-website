@@ -1,6 +1,5 @@
 import { Autocomplete, Box, Breadcrumbs, Button, Link, Modal, TextField, Typography, styled } from '@mui/material';
 import classNames from 'classnames';
-// import Button from '~/layouts/components/Button';
 import config from '~/config';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -270,9 +269,11 @@ function DetailMovie() {
                             <div className={cx('font-bold w-1/3')}>
                                 <CssDatePicker
                                     value={ngayChieu}
+                                    disablePast={true}
                                     onChange={(newValue) => {
                                         setNgayChieu(newValue);
                                     }}
+                                    views={['year', 'month', 'day']}
                                     renderInput={(params) => (
                                         <TextField size="small" {...params} sx={{ width: '90%' }} />
                                     )}
