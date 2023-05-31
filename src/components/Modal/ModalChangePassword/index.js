@@ -63,7 +63,7 @@ function ModalChangePassword({ acc }) {
             updateAccountUser.email = acc.email;
             updateAccountUser.password = newPassword;
             updateAccountUser.roles = acc.roles;
-            console.log(updateAccountUser);
+
             if (res) {
                 const fetchApi = async () => {
                     await AuthService.updateAccountUser(updateAccountUser).then(() => {

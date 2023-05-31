@@ -37,8 +37,10 @@ function ModalDangNhap() {
     const { openModalDangNhap, setOpenModalDangNhap, setOpenModalForgetPass } = useContext(CinemaContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [err, setErr] = useState(false);
 
     const handleCloseModal = () => {
+        setErr(false);
         setOpenModalDangNhap(false);
     };
 
@@ -57,9 +59,14 @@ function ModalDangNhap() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        AuthService.login(username, password).then(() => {
-            window.location.reload();
-        });
+        AuthService.login(username, password)
+            .then(() => {
+                setErr(false);
+                window.location.reload();
+            })
+            .catch(() => {
+                setErr(true);
+            });
     };
 
     return (
@@ -88,10 +95,22 @@ function ModalDangNhap() {
                         </Button>
                     </div>
                     <div className={cx('text-note')}>Vui lòng đăng nhập để đặt vé xem phim</div>
+                    {err ? <div className={cx('text-error')}>(*)Email hoặc mật khẩu không chính xác</div> : <></>}
+
                     <div className={cx('wrapper-modal')}>
                         {/* Username */}
                         <div className={cx('text-field')}>
-                            <CssTextField size="small" label="Email" onChange={onChangeUsername} />
+                            <CssTextField
+                                size="small"
+                                label="Email"
+                                error={username !== '' && !username.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)}
+                                helperText={
+                                    username !== '' && !username.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
+                                        ? 'Email không hợp lệ, email bao gồm "@"'
+                                        : ''
+                                }
+                                onChange={onChangeUsername}
+                            />
                         </div>
                         {/* Password */}
                         <div className={cx('text-field')}>
