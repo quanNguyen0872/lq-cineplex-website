@@ -37,10 +37,15 @@ function ModalDangNhap() {
     const { openModalDangNhap, setOpenModalDangNhap, setOpenModalForgetPass } = useContext(CinemaContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+ 
     const [err, setErr] = useState(false);
 
     const handleCloseModal = () => {
         setErr(false);
+ 
+
+    const handleCloseModal = () => {
+ 
         setOpenModalDangNhap(false);
     };
 
@@ -59,6 +64,7 @@ function ModalDangNhap() {
 
     const handleLogin = (e) => {
         e.preventDefault();
+ 
         AuthService.login(username, password)
             .then(() => {
                 setErr(false);
@@ -95,6 +101,7 @@ function ModalDangNhap() {
                         </Button>
                     </div>
                     <div className={cx('text-note')}>Vui lòng đăng nhập để đặt vé xem phim</div>
+ 
                     {err ? <div className={cx('text-error')}>(*)Email hoặc mật khẩu không chính xác</div> : <></>}
 
                     <div className={cx('wrapper-modal')}>
@@ -111,6 +118,7 @@ function ModalDangNhap() {
                                 }
                                 onChange={onChangeUsername}
                             />
+ 
                         </div>
                         {/* Password */}
                         <div className={cx('text-field')}>
