@@ -2,9 +2,11 @@ import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
 import Menu, { MenuItem } from './Menu';
 import { menuItems } from './Menu/menuItems';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { useContext, useRef, useState } from 'react';
+ 
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { useContext } from 'react';
+ 
 import logo from '~/layouts/asset/logo.png';
 import { Avatar, Button } from '@mui/material';
 import ModalDangKy from '~/components/Modal/ModalDangKy';
@@ -20,35 +22,45 @@ const cx = classNames.bind(styles);
 
 function Header() {
     const { setOpenModalDangKy, setOpenModalDangNhap } = useContext(CinemaContext);
-    const [searchValue, setSearchValue] = useState('');
-    const [searchResult, setSearchResult] = useState([]);
+ 
+    // const [searchValue, setSearchValue] = useState('');
+    // const [searchResult, setSearchResult] = useState([]);
     const { user } = useContext(CinemaContext);
+ 
 
     const navigate = useNavigate();
 
+ 
     const handleLogout = (e) => {
         e.preventDefault();
         AuthService.logout().then(() => {
             navigate('/');
             window.location.reload();
         });
+ 
     };
 
-    const inputRef = useRef();
+    // const inputRef = useRef();
 
-    console.log(searchResult);
+    // const handleClear = () => {
+    //     setSearchValue('');
+    //     setSearchResult([]);
+    //     inputRef.current.focus();
+    // };
 
-    const handleClear = () => {
-        setSearchValue('');
-        setSearchResult([]);
-        inputRef.current.focus();
+    // const handleChange = (e) => {
+    //     const searchValue = e.target.value;
+    //     if (!searchValue.startsWith(' ')) {
+    //         setSearchValue(searchValue);
+    //     }
+    // };
+
+    const handleOpenModalDangKy = () => {
+        setOpenModalDangKy(true);
     };
 
-    const handleChange = (e) => {
-        const searchValue = e.target.value;
-        if (!searchValue.startsWith(' ')) {
-            setSearchValue(searchValue);
-        }
+    const handleOpenModalDangNhap = () => {
+        setOpenModalDangNhap(true);
     };
 
     const handleOpenModalDangKy = () => {
@@ -77,7 +89,7 @@ function Header() {
                     </Menu>
                 </div>
                 {/* Search */}
-                <div className={cx('search')}>
+                {/* <div className={cx('search')}>
                     <input
                         ref={inputRef}
                         value={searchValue}
@@ -93,7 +105,9 @@ function Header() {
                     <button className={cx('search-btn')}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
-                </div>
+ 
+                </div> */}
+ 
                 {user ? (
                     <Dropdown
                         renderButton={() => {

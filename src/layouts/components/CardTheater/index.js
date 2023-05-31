@@ -8,7 +8,9 @@ function CardTheater({ data }) {
     return (
         <>
             {data.tenRap ? (
-                <Link to={config.routes.chitiet} state={data}>
+ 
+                <Link to={config.routes.rap} state={data}>
+ 
                     <div className={cx('column')}>
                         <div className={cx('card')}>
                             <h2>{data.tenRap}</h2>

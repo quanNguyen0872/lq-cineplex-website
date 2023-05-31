@@ -1,4 +1,6 @@
-import styles from './rap.module.scss';
+ 
+import styles from './Theater.module.scss';
+ 
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
@@ -58,7 +60,9 @@ function Theater() {
                 </TabPanel>
 
                 <div className={cx('posterrap')}>
-                    <img src={raphim} />
+ 
+                    <img src={raphim} alt="img-rap" />
+ 
                 </div>
             </div>
         </div>
